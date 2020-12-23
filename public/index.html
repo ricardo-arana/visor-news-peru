@@ -1,11 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Api</title>
+    <title>Visor de noticias!</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
 </head>
 <body>
-    Hola mundo
+    
+    <diV class="container">
+        <h1>HackMercio!</h1>
+        <div class="row g-3">
+            <div class="col-auto">
+                <label for="url" class="visually-hidden">Url</label>
+                <input name="url" class="form-control" id="url" placeholder="ingrese la url" >
+            </div>
+            <div class="col-auto">
+                <button id="getnew" class="btn btn-primary mb-3"> Obtener notica</button>
+            </div>
+            
+        </div>
+       
+        <div class="loading"></div>
+        <div id="notica">
+           
+        </div>
+        <h2 id="title"></h2>
+        <p id="description"></p>
+        <div id="img"></div>
+        <p id="body"></p>
+    </diV>
+    
+    <script>
+     const { getData } = require('./js/comercio.js');
+     const btnGetNew = document.querySelector('#getnew');
+     const inputUrl = document.querySelector('#url');
+     const divNoticia = document.querySelector('#notica');
+     const divLoading = document.querySelector('#loading');
+     const divtitle = document.querySelector('#title');
+     const divtDesc = document.querySelector('#description');
+     const divBody= document.querySelector('#body');
+     const divImg= document.querySelector('#img');
+     btnGetNew.addEventListener('click', async () => {
+         const url = inputUrl.value;
+         divNoticia.innerHTML = 'Espere un momento';
+        const datos = await getData(url);
+        console.log(datos.title)
+        divNoticia.innerHTML = '';
+        divtitle.innerText = datos.title;
+        divtDesc.innerHTML = datos.description;
+        divBody.innerHTML = datos.articleBody;
+        divImg.innerHTML = '<img src="' + datos.img + '" >'
+     })
+
+        
+    </script>
 </body>
 </html>
